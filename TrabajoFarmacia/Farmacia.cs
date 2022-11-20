@@ -48,6 +48,12 @@ namespace TrabajoFarmacia
             }
             return -1;
         }
+        
+        public void showVentas() 
+        {
+            foreach (Factura item in ventas)
+                Console.WriteLine(item);
+        }
 
         public int ToFindEmpleado(int documento)
         {
