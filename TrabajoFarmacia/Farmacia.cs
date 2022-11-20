@@ -76,6 +76,31 @@ namespace TrabajoFarmacia
                     Console.WriteLine(i++ + " " + item);
         }
 
+        public void SinStock() 
+        {
+            int i = 1;
+            foreach (Stock item in stockMedicamentos)
+                if (item.IsEmptyStok())
+                    Console.WriteLine(i++ + " " + item);
+        }
+
+        public bool CheckStokDisponible(int codMedicamento, int cantidad) 
+        {
+            int i = ToFindStok(codMedicamento);
+            if (!(i > -1))
+            {
+                Console.WriteLine("El producto no existe en el stock actual");
+                return false;
+            }
+            else
+            {
+                var item = stockMedicamentos[i] as Stock;
+                return item.CheckStok(cantidad);
+            }
+        }
+
+        
+
         public int ToFindEmpleado(int documento)
         {
             int i = 0;
