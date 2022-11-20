@@ -54,6 +54,27 @@ namespace TrabajoFarmacia
             foreach (Factura item in ventas)
                 Console.WriteLine(item);
         }
+        public void showEmpleados ()
+        {
+            int i = 1;
+            foreach (Employed item in empleados)
+                Console.WriteLine(i++ +" "+item);
+        }
+
+        public void showStock() 
+        {
+            int i = 1;
+            foreach (Stock item in stockMedicamentos)
+                Console.WriteLine(i++ + " " + item);
+        }
+
+        public void showStock(int cantMaxima)
+        {
+            int i = 1;
+            foreach (Stock item in stockMedicamentos)
+                if (!item.CheckStok(cantMaxima))
+                    Console.WriteLine(i++ + " " + item);
+        }
 
         public int ToFindEmpleado(int documento)
         {
