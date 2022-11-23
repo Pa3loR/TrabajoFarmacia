@@ -48,20 +48,20 @@ namespace TrabajoFarmacia
             }
             return -1;
         }
-        
-        public void showVentas() 
+
+        public void showVentas()
         {
             foreach (Factura item in ventas)
                 Console.WriteLine(item);
         }
-        public void showEmpleados ()
+        public void showEmpleados()
         {
             int i = 1;
             foreach (Employed item in empleados)
-                Console.WriteLine(i++ +" "+item);
+                Console.WriteLine(i++ + " " + item);
         }
 
-        public void showStock() 
+        public void showStock()
         {
             int i = 1;
             foreach (Stock item in stockMedicamentos)
@@ -76,7 +76,7 @@ namespace TrabajoFarmacia
                     Console.WriteLine(i++ + " " + item);
         }
 
-        public void SinStock() 
+        public void SinStock()
         {
             int i = 1;
             foreach (Stock item in stockMedicamentos)
@@ -84,22 +84,86 @@ namespace TrabajoFarmacia
                     Console.WriteLine(i++ + " " + item);
         }
 
-        public bool CheckStokDisponible(int codMedicamento, int cantidad) 
+        public int CheckStokDisponible(int codMedicamento, int cantidad)
         {
             int i = ToFindStok(codMedicamento);
             if (!(i > -1))
             {
                 Console.WriteLine("El producto no existe en el stock actual");
-                return false;
+                return -1;
             }
             else
             {
                 var item = stockMedicamentos[i] as Stock;
-                return item.CheckStok(cantidad);
+                if (item.CheckStok(cantidad))
+                    return i;
+                else
+                {
+                    Console.WriteLine("La cantidad Solicitada es insuficiente, por favor ingreser un numero menor a ", item.CantDisponible);
+                    return -2;
+                }
             }
         }
 
-        
+
+        public void addCompra(Factura factura)
+        {
+            ventas.Add(factura);
+        }
+
+        public void addEmpleado(Employed empleado)
+        {
+            empleados.Add(empleado);
+        }
+
+        public void addStok(Stock producto)
+        {
+            int i = ToFindStok(producto.Medicine.Codigo);
+            if (i > -1)
+            {
+                var item = stockMedicamentos[i] as Stock;
+                item.Add(producto.CantDisponible);
+                stockMedicamentos[i] = item;
+            }
+            else
+                stockMedicamentos.Add(producto);
+        }
+
+        public void DeleteEmpleado(int documento)
+        {
+            int i = ToFindEmpleado(documento);
+            if (i > -1)
+            {
+                empleados[i] = null;
+                Console.WriteLine("Empleado despedido");
+            }
+            else
+                Console.WriteLine("El documento del empleado entregado no existe");
+        }
+
+        public void DeleteCompra(string tiket)
+        {
+            int i = ToFindVenta(tiket);
+            if (i > -1)
+            {
+                ventas[i] = null;
+                Console.WriteLine("Compra ELiminada");
+            }
+            else
+                throw new InvalidTiketExeption();
+        }
+
+        public void DeleteStok(int CodMedicamento)
+        {
+            int i = ToFindEmpleado(CodMedicamento);
+            if (i > -1)
+            {
+                stockMedicamentos [i] = null;
+                Console.WriteLine("Producto eliminado");
+            }
+            else
+                Console.WriteLine("El Producto no existe en el stok");
+        }
 
         public int ToFindEmpleado(int documento)
         {
@@ -148,4 +212,5 @@ namespace TrabajoFarmacia
         }
 
     }
+    public class InvalidTiketExeption: Exception { }
 }
