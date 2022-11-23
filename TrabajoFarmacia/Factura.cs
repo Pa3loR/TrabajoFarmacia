@@ -68,6 +68,13 @@ namespace TrabajoFarmacia
             GeneratorImporte();
         }
 
+        public void AddMedicine(ArrayList list)
+        {
+            foreach (Medicamentos item in list)
+                carrito.Add(item);
+            GeneratorImporte();
+        }
+
         // METODO PARA BUSCAR MEDICAMENTO en forma secuencial
         public bool ToFindMedicine(Medicamento medicine) // Me retorna un booleano
         {
