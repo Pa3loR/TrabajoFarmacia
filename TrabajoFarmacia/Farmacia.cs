@@ -195,6 +195,18 @@ namespace TrabajoFarmacia
                 stockMedicamentos.Add(producto);
             }
         }
+        
+        //DEVUELVE LA CANTIDAD DE VENTAS REALIZADO POR UN VENDEDOR CON SU DOCUMENTO
+        public int VentasXVendedor(int documento) 
+        {
+            int count= 0;
+            foreach(Factura item in ventas)
+            {
+                if (item.Vendedor.DNI == documento)
+                    count += 1;
+            }
+            return count;
+        }
 
         //DESPIDE UN EMPLEADO
         public void DeleteEmpleado(int documento)
