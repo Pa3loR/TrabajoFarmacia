@@ -87,7 +87,7 @@ namespace TrabajoFarmacia
             this.medicine = medicine;
             GenerarImporte();
         }
-        // SOLO  LECTURA
+        // SOLO  LECTURA  Y ESCRITURA
         public int Cantidad
         {
             get { return cantidad; }
@@ -103,17 +103,20 @@ namespace TrabajoFarmacia
             set { medicine = value; }
         }
 
+        //METODO PARA AGREGAR CANTIDAD UN  CARRITO
         public void Add()
         {
             cantidad++;
             GenerarImporte();
         }
+            // PARA CUANDO QUIERE AGREMAS DE UNO
         public void Add(int cant)
         {
             cantidad += cant;
             GenerarImporte();
         }
 
+        // METODO PARA ELIMINAR UN PRODUCTO DEL CARRITO
         public void Delete()
         {
             if (cantidad > 0)
@@ -123,11 +126,14 @@ namespace TrabajoFarmacia
             }
             else Console.WriteLine("No queda ningun elemento para quitar");
         }
+
+            //SI QUIERE QUITAR MAS DE UNO
         public void Delete(int cant)
         {
             cantidad -= cant;
             GenerarImporte();
         }
+        // BORRA TODO LA CANTIDAD DEL PRODUCTO
         public void AllDelete()
         {
             cantidad = 0;
@@ -149,6 +155,8 @@ namespace TrabajoFarmacia
                 return importe;
             }
         }
+
+        //SOBREESCRIBIMIENTO
 
         public override string ToString()
         {
