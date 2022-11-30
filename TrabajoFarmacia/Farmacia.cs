@@ -5,15 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/// ***************************
+///     CLASE FARMACIA 
+/// ***************************
 namespace TrabajoFarmacia
 {
     internal class Farmacia
     {
+        //ATRIBUTOS
         private string nombre;
         private ArrayList ventas;
         private ArrayList stockMedicamentos;
         private ArrayList empleados;
 
+        //CONSTRUCTOR
         public Farmacia(string nombre)
         {
             this.nombre = nombre;
@@ -21,7 +26,11 @@ namespace TrabajoFarmacia
             this.stockMedicamentos = new ArrayList();
             this.empleados = new ArrayList();
         }
+        //METODO GET DEL NOMBRE (SOLO LECTURA)
+        public string Nombre { get { return nombre; } }
 
+        //METODO PARA BUSCAR UN STOCK CON EL CODIGO DEL MEDICAMENTO
+        //              RETORNA EL INDICE SI LO ENCUENTRA SINO -1
         public int ToFindStok(int CodMedicine)
         {
             int i = 0;
@@ -35,6 +44,8 @@ namespace TrabajoFarmacia
             }
             return -1;
         }
+        //METODO PARA BUSCAR UNA VENTA CON EL TIKET DE LA VENTA
+        //              RETORNA EL INDICE SI LO ENCUENTRA SINO -1
         public int ToFindVenta(string tiket)
         {
             int i = 0;
@@ -49,11 +60,30 @@ namespace TrabajoFarmacia
             return -1;
         }
 
+        //METODO PARA BUSCAR UN EMPLEADO ATRAVES DE SU DOCUMENTO
+        //              RETORNA EL INDICE SI LO ENCUENTRA SINO -1
+        public int ToFindEmpleado(int documento)
+        {
+            int i = 0;
+            foreach (Employed item in ventas)
+            {
+                if (item.DNI == documento)
+                {
+                    return i;
+                }
+                i++;
+            }
+            return -1;
+        }
+
+        //METODO PARA LISTAR TODAS LAS VENTAS
         public void showVentas()
         {
             foreach (Factura item in ventas)
                 Console.WriteLine(item);
         }
+
+        //METODO PARA LISTAR TODAS LOS EMPLEADOS
         public void showEmpleados()
         {
             int i = 1;
@@ -61,6 +91,7 @@ namespace TrabajoFarmacia
                 Console.WriteLine(i++ + " " + item);
         }
 
+        //METODO PARA LISTAR TODOS LOS PRUCTOS EN STOCK
         public void showStock()
         {
             int i = 1;
@@ -68,6 +99,7 @@ namespace TrabajoFarmacia
                 Console.WriteLine(i++ + " " + item);
         }
 
+        //      METODO PARA LISTAR TODOS LOS PRUCTOS EN STOCK QUE TENGAN MAS DE LA CANTIDAD SOLICITADA
         public void showStock(int cantMaxima)
         {
             int i = 1;
@@ -76,6 +108,7 @@ namespace TrabajoFarmacia
                     Console.WriteLine(i++ + " " + item);
         }
 
+        // METODO QUE MUESTRA LOS PRODUCTOS SIN STOCK
         public void SinStock()
         {
             int i = 1;
@@ -84,6 +117,7 @@ namespace TrabajoFarmacia
                     Console.WriteLine(i++ + " " + item);
         }
 
+        // VERIFICA SI UN STOCK ESTA DISPONIBLE Y SI EXISTE
         public int CheckStokDisponible(int codMedicamento, int cantidad)
         {
             int i = ToFindStok(codMedicamento);
@@ -105,17 +139,19 @@ namespace TrabajoFarmacia
             }
         }
 
-
+        // AÑADE UNA COMPRA EN VENTAS
         public void addCompra(Factura factura)
         {
             ventas.Add(factura);
         }
 
+        //AÑADE UN EMPLEADO A LA LISTA DE EMPLEADOS
         public void addEmpleado(Employed empleado)
         {
             empleados.Add(empleado);
         }
 
+        //AÑADE UN NUEVO STOCK
         public void addStok(Stock producto)
         {
             int i = ToFindStok(producto.Medicine.Codigo);
@@ -128,7 +164,24 @@ namespace TrabajoFarmacia
             else
                 stockMedicamentos.Add(producto);
         }
+        //    T  AÑADE UN STOCK CON UN MEDICAMENTO Y LA CANTIDAD
+        public void AddStok(Medicamento medicine, int cantidad)
+        {
+            int i = ToFindStok(medicine.Codigo);
+            if (i > -1)
+            {
+                var item = stockMedicamentos[i] as Stock;
+                item.Add(cantidad);
+                stockMedicamentos[i] = item;
+            }
+            else 
+            {
+                var producto = new Medicamentos(cantidad, medicine);
+                stockMedicamentos.Add(producto);
+            }
+        }
 
+        //DESPIDE UN EMPLEADO
         public void DeleteEmpleado(int documento)
         {
             int i = ToFindEmpleado(documento);
@@ -141,6 +194,7 @@ namespace TrabajoFarmacia
                 Console.WriteLine("El documento del empleado entregado no existe");
         }
 
+        // ELIMINA UNA VENTA
         public void DeleteCompra(string tiket)
         {
             int i = ToFindVenta(tiket);
@@ -153,6 +207,7 @@ namespace TrabajoFarmacia
                 throw new InvalidTiketExeption();
         }
 
+        // BORRA UN PRODUCTO DEL STOCK CON SU CODIGO DE MEDICAMENTO
         public void DeleteStok(int CodMedicamento)
         {
             int i = ToFindEmpleado(CodMedicamento);
@@ -165,23 +220,7 @@ namespace TrabajoFarmacia
                 Console.WriteLine("El Producto no existe en el stok");
         }
 
-        public int ToFindEmpleado(int documento)
-        {
-            int i = 0;
-            foreach (Employed item in ventas)
-            {
-                if (item.DNI == documento)
-                {
-                    return i;
-                }
-                i++;
-            }
-            return -1;
-        }
-        public void AddStok(Medicamento medicine, int cantidad)
-        {
-
-        }
+       
 
         private void Default()
         {
