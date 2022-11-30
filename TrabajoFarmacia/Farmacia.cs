@@ -83,6 +83,21 @@ namespace TrabajoFarmacia
                 Console.WriteLine(item);
         }
 
+        //METODO QUE LISTA LOS MEDICAMENTOS  VENDIDOS SIN REPETIR
+        public void showMedicineSold() 
+        {
+            var list = new HashSet<Medicamento>();
+            foreach(Factura item in ventas) // AGREGA EN LA LISTA LOS MEDICAMENTOS
+            {
+                foreach (Medicamento medicine in item.MedicamentoSold()) 
+                {
+                    list.Add(medicine);
+                }
+            }
+            foreach (Medicamento item in list)
+                Console.WriteLine(item);
+        }
+
         //METODO PARA LISTAR TODAS LOS EMPLEADOS
         public void showEmpleados()
         {
