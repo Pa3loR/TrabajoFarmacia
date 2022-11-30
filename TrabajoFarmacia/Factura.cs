@@ -185,7 +185,7 @@ namespace TrabajoFarmacia
                 GeneratorImporte();
             }
         }
-        //LISTA LOS MEDICAMENTOS VENDIDOS DE LA FACTURA
+        //RETORNA LOS MEDICAMENTOS VENDIDOS DE LA FACTURA
         public ArrayList MedicamentoSold() 
         {
             var medicameto = new ArrayList();
