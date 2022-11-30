@@ -185,6 +185,14 @@ namespace TrabajoFarmacia
                 GeneratorImporte();
             }
         }
+        //LISTA LOS MEDICAMENTOS VENDIDOS DE LA FACTURA
+        public ArrayList MedicamentoSold() 
+        {
+            var medicameto = new ArrayList();
+            foreach(Medicamentos item in carrito)
+                medicameto.Add(item.Medicine);
+            return medicameto;
+        }
 
         // METODO PARA GENERAR EL IMPORTE TOTAL DE LA FACTURA
         private void GeneratorImporte()
