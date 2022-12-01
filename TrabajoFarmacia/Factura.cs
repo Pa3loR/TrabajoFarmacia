@@ -185,6 +185,14 @@ namespace TrabajoFarmacia
                 GeneratorImporte();
             }
         }
+        //COMPARA SI LA FECHA ES MENORR A LA SUYA, SI LO ES DEVUELVE TRUE SI ES MAYOR ES FALSE
+        public bool CompareToFecha(DateTime time) 
+        {
+            
+            if(fechaHora.CompareTo(time)>0)
+                return true;
+            return false;
+        }
         //RETORNA LOS MEDICAMENTOS VENDIDOS DE LA FACTURA
         public ArrayList MedicamentoSold() 
         {
@@ -200,7 +208,7 @@ namespace TrabajoFarmacia
             total = 0;
             foreach (Medicamentos medicamentos in carrito)
             {
-                total += Convert.ToInt16(medicamentos.GetImporte);
+                total += medicamentos.GetImporte; // suma los importes
             }
         }
 
@@ -213,7 +221,7 @@ namespace TrabajoFarmacia
 
         public override string ToString()
         {
-            return " obra social" + prestacion + "importe" + total + "código de vendedor" + vendedor.Codigo + "fecha y hora de venta " + fechaHora + "nro de ticket-factura" + tiketFactura;
+            return " obra social: " + prestacion + " importe: " + total + "código de vendedor: " + vendedor.Codigo + " fecha y hora de venta: " + fechaHora.ToString("dd/MM/yyyy") + " nro de ticket-factura " + tiketFactura;
         }
     }
 }
