@@ -29,6 +29,12 @@ namespace TrabajoFarmacia
         //METODO GET DEL NOMBRE (SOLO LECTURA)
         public string Nombre { get { return nombre; } }
 
+        // METODO QUE DEVUELVE UN EMPLEADO DE LA LISTA DE EMPLEADOS
+        public Employed ObtenerEmpleado(int indice) 
+        {
+            return empleados[indice] as Employed; ;
+        }
+
         //METODO PARA BUSCAR UN STOCK CON EL CODIGO DEL MEDICAMENTO
         //              RETORNA EL INDICE SI LO ENCUENTRA SINO -1
         public int ToFindStok(int CodMedicine)
@@ -154,6 +160,19 @@ namespace TrabajoFarmacia
             }
         }
 
+        // SOBRECARGA DEL METODO ANTERIOR para que retorne un booleano
+         public bool checkStokDisponibleBol(int indice,int cantidad) 
+        {
+            var item = stockMedicamentos[indice] as Stock;
+            if (item.CheckStok(cantidad))
+                return true;
+            else
+            {
+                Console.WriteLine("La cantidad Solicitada es insuficiente, por favor ingreser un numero menor a ", item.CantDisponible);
+                return false;
+            }
+        }
+
         // AÑADE UNA COMPRA EN VENTAS
         public void addCompra(Factura factura)
         {
@@ -233,8 +252,34 @@ namespace TrabajoFarmacia
             else
                 throw new InvalidTiketExeption();
         }
+        //ORDENAMIENTO DE VENTAS POR FECHA Pero por alguna razon no me toma el intercambio
+        //public void ordenFechaVenta()
+        //{
+        //    int rounds = 0;
+        //    bool swp = false;
+        //    while (!swp)
+        //    {
+        //        swp = true;
+        //        for (int i = 0; i < ventas.Count - 1 - rounds; i++)
+        //        {
+        //            var item = ventas[i] as Factura;
+        //            var itemNext = ventas[i + 1] as Factura;
+        //            if (!(item.CompareToFecha(itemNext.Fecha)))
+        //            {
+        //                var aux = ventas[i + 1];
+        //                ventas[i + 1] = ventas[i];
+        //                ventas[i + 1] = aux;
+        //            }
+        //        }
+        //        rounds++;
+        //    }
+
+        //}
+
+        //LISTA EL IMPORTE DE TODAS LAS VENTAS GASTA UNA DETERMINADA FECHA
 
         // BORRA UN PRODUCTO DEL STOCK CON SU CODIGO DE MEDICAMENTO
+
         public void DeleteStok(int CodMedicamento)
         {
             int i = ToFindEmpleado(CodMedicamento);
@@ -249,7 +294,7 @@ namespace TrabajoFarmacia
 
        
 
-        private void Default()
+        public void Default()
         {
             nombre = "Farmacia";
             var vendedorUno = new Vendedor(1234567, 40548231, "Torres", "Oscar", 90000);
@@ -321,7 +366,7 @@ namespace TrabajoFarmacia
 
             var factura = new Factura("HA132456", new DateTime(2022, 10, 11, 7, 0, 0), vendedorUno);
             var factura2 = new Factura("H131312", new DateTime(2022, 11, 11, 12, 0, 0), vendedorDos, "Galeno");
-            var factura3 = new Factura("HF32454", new DateTime(2022, 22, 11, 8, 0, 0), vendedorDos, "Simeco");
+            var factura3 = new Factura("HF32454", new DateTime(2022, 9, 11, 8, 0, 0), vendedorDos, "Simeco");
             var factura4 = new Factura("F412313", new DateTime(2022, 11, 11, 16, 0, 0), vendedorUno, "Ospic");
             var factura5 = new Factura("GH14123", new DateTime(2022, 12, 11, 13, 0, 0), vendedorUno,"Galeno");
 
