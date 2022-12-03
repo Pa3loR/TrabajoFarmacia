@@ -92,6 +92,20 @@ namespace TrabajoFarmacia
             int i = 0;
             foreach (Employed item in empleados)
             {
+                if (item.DNI == documento)
+                {
+                    return i;
+                }
+                i++;
+            }
+            return -1;
+        }
+
+        public int ToFindVendedor(int documento)
+        {
+            int i = 0;
+            foreach (Employed item in empleados)
+            {
                 if (item.DNI == documento && item is Vendedor)
                 {
                     return i;
