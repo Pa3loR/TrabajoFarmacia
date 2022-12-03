@@ -285,7 +285,7 @@ namespace TrabajoFarmacia
             int i = ToFindEmpleado(documento);
             if (i > -1)
             {
-                empleados[i] = null;
+                empleados.RemoveAt(i);
                 Console.WriteLine("Empleado despedido");
             }
             else
@@ -337,7 +337,7 @@ namespace TrabajoFarmacia
             int i = ToFindEmpleado(CodMedicamento);
             if (i > -1)
             {
-                stockMedicamentos [i] = null;
+                stockMedicamentos.RemoveAt(i);
                 Console.WriteLine("Producto eliminado");
             }
             else
