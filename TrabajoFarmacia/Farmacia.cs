@@ -92,7 +92,7 @@ namespace TrabajoFarmacia
             int i = 0;
             foreach (Employed item in empleados)
             {
-                if (item.DNI == documento)
+                if (item.DNI == documento && item is Vendedor)
                 {
                     return i;
                 }
@@ -268,15 +268,18 @@ namespace TrabajoFarmacia
         }
         
         //DEVUELVE LA CANTIDAD DE VENTAS REALIZADO POR UN VENDEDOR CON SU DOCUMENTO
-        public int VentasXVendedor(int documento) 
+        public void VentasXVendedor(int documento) 
         {
             int count= 0;
             foreach(Factura item in ventas)
             {
                 if (item.Vendedor.DNI == documento)
+                {
                     count += 1;
+                }
             }
-            return count;
+            var vendedor = empleados[ToFindEmpleado(documento)] as Employed;
+            Console.WriteLine("El vendedor: "+vendedor.Nombre+", con documento "+vendedor.DNI+" realizo "+ count+" ventas totales");
         }
 
         //DESPIDE UN EMPLEADO
