@@ -36,7 +36,8 @@ internal class Program
                 Run(farmacia);
                 break;
             case 6:
-                //deleteEmpleado(farmacia);
+                deleteEmpleado(farmacia);
+                Run(farmacia);
                 break;
             case 7:
                 //listaMedicamentos();
@@ -48,12 +49,40 @@ internal class Program
         }
     }
 
+    private static void deleteEmpleado(Farmacia farmacia)
+    {
+        Console.WriteLine(" ");
+        Console.WriteLine("            ELIMINAR UN EMPLEADO           ");
+        Console.WriteLine("________________________________________________");
+        Console.WriteLine(" ");
+        string continuar;
+        farmacia.showEmpleados();
+        do
+        {
+            int documento = GetIntegerVelue("Ingrese Documento del empleado: ");
+            int indice = farmacia.ToFindEmpleado(documento);
+            if (indice < 0)
+                Console.WriteLine("         El empleado No existe!");
+            else
+            {
+                Console.WriteLine("Seguro que desea despedir al empleado?[N para no despedir]");
+                string confirmacion = Console.ReadLine();
+                if (!(confirmacion.ToLower() == "n"))
+                {
+                    farmacia.DeleteEmpleado(documento);
+                }
+            }
+            Console.WriteLine(" ");
+            Console.WriteLine("Desea agregar un nuevo documento?[N para volver al menu]");
+            continuar = Console.ReadLine();
+        } while (!(continuar.ToLower() == "n"));
+    }
+
     public static void AddEmpleado(Farmacia farmacia)
     {
         Console.WriteLine(" ");
         Console.WriteLine("            AÑADIR UN NUEVO EMPLEADO           ");
         Console.WriteLine("________________________________________________");
-        Console.WriteLine(" ");
         Console.WriteLine(" ");
         Console.WriteLine("1- Añadir Vendedor");
         Console.WriteLine("2- Añadir Farmaceutico");
