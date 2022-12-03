@@ -100,62 +100,74 @@ internal class Program
         farmacia.addCompra(factura4);
         farmacia.addCompra(factura5);
 
-
+        //SE PONE EN MARCHA EL SISTEMA
         Run(farmacia);
     }
 
+    //FUNNCION PARA CORRER LAS DIFERENTES OPCIONES 
     public static void Run(Farmacia farmacia) 
     {
+        // limpia la pantalla cuando es invocado
         Console.Clear();
-        switch (Menu())
+        switch (Menu()) // menu retorna la opcion elejida por el usuario
         {
             case 1:
+                //agrega un compra
                 AgregarCompraMedicine(farmacia);
                 Run(farmacia);
                 break;
             case 2:
+                // borra una compra
                 DeleteCompra(farmacia);
                 Run(farmacia);
                 break;
             case 3:
+                // muestra en pantalla el porcentaje de compras por obrasocial de la primera quincena del mes elegido
                 Pocentaje(farmacia);
                 Run(farmacia);
                 break;
             case 4:
+                // imprime en pantalla la cantidad de ventas del vendedor deseado
                 VentasxVendedor(farmacia);
                 Run(farmacia);
                 break;
             case 5:
+                // añade un nuevo empleado
                 AddEmpleado(farmacia);
                 Run(farmacia);
                 break;
             case 6:
+                //elimina un empleado
                 deleteEmpleado(farmacia);
                 Run(farmacia);
                 break;
             case 7:
+                //imprime en pantalla los vedicamentos vendidos sin repetir
                 listaMedicamentos(farmacia);
                 Run(farmacia);
                 break;
             case 8:
+                // termina el programa 
                 break;
             default:
                 break;
         }
     }
 
+    // LISTA LOS MEDICAMENTOS VENDIDOS SIN REPETIR 
     public static void listaMedicamentos(Farmacia farmacia)
     {
         Console.WriteLine(" ");
         Console.WriteLine("               MEDICAMENTOS VENDIDOS           ");
         Console.WriteLine("________________________________________________");
         Console.WriteLine(" ");
-        farmacia.showMedicineSold();
+        farmacia.showMedicineSold(); //imprime la lista 
         Console.WriteLine(" ");
         Console.WriteLine("Presione cualquier tecla par volver la menu...");
         Console.ReadKey();
     }
 
+    //ELIMINA UN EMPLEADO
     public static void deleteEmpleado(Farmacia farmacia)
     {
         Console.WriteLine(" ");
@@ -163,18 +175,19 @@ internal class Program
         Console.WriteLine("________________________________________________");
         Console.WriteLine(" ");
         string continuar;
-        farmacia.showEmpleados();
+        farmacia.showEmpleados(); // lista los empleados para que sea mas facil ingresar el codigo
+        // un bucle por si quiere eliminar mas de un empleado
         do
         {
-            int documento = GetIntegerVelue("Ingrese Documento del empleado: ");
-            int indice = farmacia.ToFindEmpleado(documento);
+            int documento = GetIntegerVelue("Ingrese Documento del empleado: "); // Validacion para que sea del tipo entero
+            int indice = farmacia.ToFindEmpleado(documento);// busca al empleado si existe devuelve su indice, sino   - 1
             if (indice < 0)
                 Console.WriteLine("         El empleado No existe!");
             else
             {
                 Console.WriteLine("Seguro que desea despedir al empleado?[N para no despedir]");
                 string confirmacion = Console.ReadLine();
-                if (!(confirmacion.ToLower() == "n"))
+                if (!(confirmacion.ToLower() == "n")) // despues de una confirmacion depide al empleado
                 {
                     farmacia.DeleteEmpleado(documento);
                 }
@@ -185,6 +198,7 @@ internal class Program
         } while (!(continuar.ToLower() == "n"));
     }
 
+    //AÑADE UN EMPLEADO A LA FARMACIA  
     public static void AddEmpleado(Farmacia farmacia)
     {
         Console.WriteLine(" ");
@@ -195,6 +209,7 @@ internal class Program
         Console.WriteLine("2- Añadir Farmaceutico");
         Console.WriteLine("3- Añadir Mantenimiento");
         int option;
+        // hace elegir entre las opciones en dar incorrecto  entra en el bucle
         do
         {
             option = GetIntegerVelue("Ingrese alguna de las opciones:");
@@ -202,6 +217,8 @@ internal class Program
 
         int documento;
         int isInvalid = -1;
+
+        //el bucle es para confirmar si existe en ese caso vuelve a entrar en el bucle
         do 
         {
             documento = GetIntegerVelue("Ingrese Documento del nuevo empleado: ");
@@ -210,26 +227,36 @@ internal class Program
                 Console.WriteLine("Ese documento ya esta agregado");
 
         } while (isInvalid > -1);
+        
+        //solcita el nombre, apellido y sueldo ya que son datos que se comparte con todas las clases tipo de empleado
+
         Console.WriteLine("Ingrese nombre del nuevo empleado");
         string nombre = Console.ReadLine();
         Console.WriteLine("Ingrese apellido del nuevo empleado");
         string apellido = Console.ReadLine();
         int sueldo = GetIntegerVelue("Ingrese el sueldo correspondiente al nuevo empleado: ");
+        
+        // creo una variable employed y luego con polimorfismo se le asigna el tipo de empleado seleccionado
         Employed empleadoNuevo;
         switch (option) 
         {
             case 1:
+                //caso vendedor tiene que pedir el codigo como dato adicional
                 int codigo = GetIntegerVelue("Ingrese el codigo del nuevo Vendedor: ");
+                // se instancia vendedor
                 empleadoNuevo = new Vendedor(codigo, documento, apellido, nombre, sueldo);
                 Console.WriteLine("     Vendedor Creado!");
                 break;
             case 2:
+                //caso farmaceutico como no tiene otra cosa lo instancia con los datos obtenidos
                 empleadoNuevo = new Farmaceutico(documento, apellido, nombre, sueldo);
                 Console.WriteLine("     Farmaceutico Creado!");
                 break;
             case 3:
+                // casp Mantenimiento se le solicita el puesto nomas
                 Console.WriteLine("Ingrese el puesto del nuevo empleado de Mantenimiento");
                 string puesto = Console.ReadLine();
+                // ya con el dato faltante se instancia
                 empleadoNuevo = new Mantenimiento(puesto, documento, apellido, nombre, sueldo);
                 Console.WriteLine("     empleado de Mantenimiento Creado!");
                 break;
@@ -239,27 +266,30 @@ internal class Program
                 Console.WriteLine("     Farmaceutico Creado!");
                 break;
         }
+        // muestra los datos para que sea mas facil de ver los datos agregados
         Console.WriteLine(empleadoNuevo);
+        Console.WriteLine(" ");
         Console.WriteLine("DESEA AGREGAR AL NUEVO EMPLEADO? [N para no agregarlo]");
         string confirmacion = Console.ReadLine();
-        if (!(confirmacion.ToLower() == "n"))
+        if (!(confirmacion.ToLower() == "n"))// se pide una confirmacion si se quiere agregar al nuevo empleado
         {
             farmacia.addEmpleado(empleadoNuevo);
             Console.WriteLine("         Empleado Contratado!");
         }
-        else
+        else // en el caso que se arrepienta o haya ingresado mal, no lo contrata
             Console.WriteLine("         El Empleado NO FUE Contratado!");
         Console.WriteLine(" ");
         Console.WriteLine("Presione cualquier tecla par volver la menu...");
         Console.ReadKey();
     }
 
+    // FUNCION PARA AÑADIR UNA COMPRA EN LA FARMACIA
     public static void AgregarCompraMedicine(Farmacia farmacia)
     {
-        string option="N";
+        string option="N"; // variable para ver si quiere hacer otra compra
         do
         {
-            var listaProductos = new ArrayList();
+            var listaProductos = new ArrayList(); // lista donde se agragaran los productos a agregar al carrito
             Console.WriteLine(" ");
             Console.WriteLine("       AÑADIR COMPRA DE MEDICAMENTOS           ");
             Console.WriteLine("________________________________________________");
@@ -270,12 +300,13 @@ internal class Program
             //  EN CASO DE EXISTIR LE PIDE QUE INGRESE OTRO CODIGO
             int isvalidCompra;
             string tiketFactura;
+            // pide el numero de ticket hasta sea uno valido
             do
             {
                 Console.WriteLine("Ingrese el Tiket de compra: ");
                 tiketFactura = Console.ReadLine().ToUpper();
-                isvalidCompra = farmacia.ToFindVenta(tiketFactura);
-                if (isvalidCompra > -1)
+                isvalidCompra = farmacia.ToFindVenta(tiketFactura); // ve si existe una compra con ese numero de ticket
+                if (isvalidCompra > -1) // >-1 es que existe
                     Console.WriteLine("     Esa Compra Ya existe!");
             } while (isvalidCompra > -1);
 
@@ -283,15 +314,15 @@ internal class Program
 
             int isValidEmpleado;
             int codVendedor;
+            farmacia.showVendedores(); // muestra los vendedores disponible para que sa mas facil ingresarlo 
             do
             {
-                farmacia.showVendedores();
                 codVendedor = GetIntegerVelue("Ingrese el documento del vendedor");
                 isValidEmpleado = farmacia.ToFindEmpleado(codVendedor);
                 if (!(isValidEmpleado > -1))
                     Console.WriteLine("     El empleado no existe!");
             } while (!(isValidEmpleado > -1));
-
+            // una ves que se obtiene un dato de vendedor se copia para guardarlo en factura
             var empleado = farmacia.ObtenerVendedor(isValidEmpleado);
 
             //VALIDADCIONES PARA AGREGAR LA FECHA
@@ -299,6 +330,7 @@ internal class Program
             int dia = -1;
             int mes = -1;
             int anio = 2023;
+            // hasta que no ponga una fecha con formato correcto no lo acepta
             do
             {
                 anio = GetIntegerVelue("Ingrese Año: ");
@@ -306,6 +338,7 @@ internal class Program
                 dia = GetIntegerVelue("Ingrese el dia: ");
             } while (!(anio <= 2022 && mes < 13 && mes > 0 && dia > 0 && dia < 32));
 
+            // crea la fecha con los datos solicitados
             var fechaCompra = new DateTime(anio, mes, dia);
 
             // PONE LOS PRODUCTOS PARA AGREGAR A LA COMPRA
@@ -317,28 +350,36 @@ internal class Program
                 Console.WriteLine("         Añadir producto             ");
                 Console.WriteLine("______________________________________");
                 Console.WriteLine(" ");
-                farmacia.showStock();
+                farmacia.showStock(); // muestra los productos en stock
                 Console.WriteLine(" ");
 
 
                 int codMedicine = GetIntegerVelue("Ingrese el codigo del medicamento: ");
                 int indiceStock = farmacia.ToFindStok(codMedicine);
+                // ve si existe en el stock
                 if (indiceStock > -1)
                 {
+                    // si existe tiene que comprobar que la cantidad solicitada sea valida
                     int cantMedicine;
+                    // le pide que ingrese  un valor disponible
                     do
                     {
                         cantMedicine = GetIntegerVelue("Ingrese la cantidad del medicamento que quiere comprar: ");
 
                     } while (!farmacia.checkStokDisponibleBol(indiceStock, cantMedicine));
 
+                    // ya con todo los datos correctos, saca la cantidad solicitadad del stock
                     farmacia.SacarDelStock(indiceStock, cantMedicine);
+
+                    //y esa cantidad lo pone en la compra
                     var producto = new Medicamentos(cantMedicine, farmacia.obtenerMedicamento(indiceStock));
                     listaProductos.Add(producto);
                 }
+                // en caso que no este pone que no existe
                 else
                     Console.WriteLine("     El medicamento solicitado NO EXISTE en el stock actual");
 
+                // Pregunta por si se quiere seguir comprando mas productos
                 Console.WriteLine("Desea Continuar agregando Medicamentos? [Presione N para no continuar]");
                 addProduc = Console.ReadLine();
 
@@ -382,18 +423,22 @@ internal class Program
         } while (option.ToLower() != "n");
     }
 
+    // ELIMINA UNA COMPRA DE LAS VENTAS
     public static void DeleteCompra(Farmacia farmacia)
     {
         Console.WriteLine(" ");
         Console.WriteLine("                 ELIMINAR COMPRA          ");
         Console.WriteLine("________________________________________________");
         Console.WriteLine(" ");
-       
+         
+        // muestra las ventas que hay en farmacia
         farmacia.showVentasSimplificado();
         string option = "y";
         string tiketFactura;
+        // Bucle por si se quiere quitar mas de 1 compra
         do
         {
+            //validaciones para que ingrese un dato correcto y que exista
             bool isInvalid = true;
             while (isInvalid)
             {
@@ -402,21 +447,23 @@ internal class Program
                     Console.WriteLine("Ingrese el tiket de la compra que desea eliminar: ");
                     tiketFactura = Console.ReadLine().ToUpper();
                     farmacia.DeleteCompra(tiketFactura);
-                    isInvalid = false;
+                    isInvalid = false; // se creo sin problemas por eso false asi sale del bucle
                 }
                 catch (InvalidTiketExeption e)
                 {
+                    //en caso que no exista la compra
                     Console.WriteLine(e.Message);
                     Console.WriteLine(" ");
                     Console.WriteLine("     El tiket ingresado NO EXISTE!");
-                    isInvalid = true;
+                    isInvalid = true; // es verdadero por que ocurrio la exepcion asi que entra en el bucle
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("A Ocurrido un error");
-                    isInvalid = true;
+                    isInvalid = true;// es verdadero por que ocurrio la exepcion asi que entra en el bucle
                 }
             }
+            // Pide una confirmacion para borrar
             Console.WriteLine("Desea eliminar otra compra? [Y/N] ");
             option = Console.ReadLine();
             Console.WriteLine(" ");
@@ -425,6 +472,8 @@ internal class Program
         Console.WriteLine("Presione cualquier tecla par volver la menu...");
         Console.ReadKey();
     }
+
+    //LISTA LAS VENTAS TOTALES DEL VENDEDOR DESEADO
     public static void VentasxVendedor(Farmacia farmacia) 
     {
         Console.WriteLine(" ");
@@ -432,8 +481,10 @@ internal class Program
         Console.WriteLine("________________________________________________");
         Console.WriteLine(" ");
         int existVendedor = -1;
-        int docVendedor;
+        int docVendedor; 
+        // muestra la lista de vendedores disponibles
         farmacia.showVendedores();
+        //Bucle hasta que el dato del vendedor sea correcto
         do 
         {
             docVendedor = GetIntegerVelue("Ingrese documento del vendedor: ");
@@ -441,16 +492,19 @@ internal class Program
             if (existVendedor <= -1)
                 Console.WriteLine("     El vendedor ingresado NO Existe");
         }while (existVendedor <= -1);
+        // llama al metodo VentasXVendedor que lista la ventas totales
         farmacia.VentasXVendedor(docVendedor);
         Console.WriteLine(" ");
         Console.WriteLine("Presione cualquier tecla par volver la menu...");
         Console.ReadKey();
     }
 
+    // FUNCION DEL MENU QUE RETORNA LA OPCION ELEJIDA POR EL USUARIO
     public static int Menu() 
     {
         string option;
         int optionInt;
+        // el bucle esta hasta que elija una opcion coreccta entra las mostradas
         do
         {
             Console.WriteLine("***********************************************************");
@@ -473,9 +527,10 @@ internal class Program
 
         } while (!(int.TryParse(option, out optionInt) && optionInt > 0 && optionInt < 9));
          
-        return optionInt;
+        return optionInt; // devuelve la opcion
     }
 
+    // FUNCION QUE DEVUELVE EL PORCENTAJE DE LAS VENTAS DE LA PRIMERA QUINCENA  DEL MES SOLICITADO
     public static void Pocentaje(Farmacia farmacia) 
     {
         Console.WriteLine(" ");
@@ -483,12 +538,14 @@ internal class Program
         Console.WriteLine("             del ultimo año(2022)");
         Console.WriteLine("_______________________________________________");
         Console.WriteLine(" ");
-        farmacia.showVentas();
+        farmacia.showVentas(); // muestra las ventas
         int mes=0;
+        //entra en bucle hasta que el mes sea uno correcto
         do 
         {
             mes = GetIntegerVelue("Por favor el mes [1-12] que desea ver su porcentaje de ventas de obra social: ");
         } while (!(mes > 0 && mes < 13));
+        // el metodo de la farmacia realiza el porcentaje del mes del año 2022
         farmacia.PorcentajeObraSocial(mes);
         Console.WriteLine(" ");
         Console.WriteLine("Presione cualquier tecla par volver la menu...");
