@@ -63,7 +63,7 @@ internal class Program
             do
             {
                 Console.WriteLine("Ingrese el Tiket de compra: ");
-                tiketFactura = Console.ReadLine();
+                tiketFactura = Console.ReadLine().ToUpper();
                 isvalidCompra = farmacia.ToFindVenta(tiketFactura);
                 if (isvalidCompra > -1)
                     Console.WriteLine("     Esa Compra Ya existe!");
