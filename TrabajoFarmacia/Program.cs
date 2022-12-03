@@ -6,7 +6,101 @@ internal class Program
     private static void Main(string[] args)
     {
         var farmacia = new Farmacia("Belgrano");
-        farmacia.Default();
+
+        //CREACION DE LOS EMPLEADOS
+        var vendedorUno = new Vendedor(1234567, 40548231, "Torres", "Oscar", 90000);
+        var vendedorDos = new Vendedor(1234568, 35949556, "Roman", "Roberto", 91000);
+        var farmaceutico = new Farmaceutico(35518211, "Aguirre", "Marcela", 12000);
+        var mantenimiento = new Mantenimiento("Limpieza", 20777189, "Delolla", "Rosa", 600000);
+
+        //SE AGREGAN LOS EMPLEADOS A LA FARMACIA
+        farmacia.addEmpleado(vendedorUno);
+        farmacia.addEmpleado(vendedorDos);
+        farmacia.addEmpleado(farmaceutico);
+        farmacia.addEmpleado(mantenimiento);
+
+        //CREACION DE LOS MEDICAMENTO
+        var ibu = new Medicamento(5554131, "Ibuprofeno 500mg", 500, "antiinflamatoria no esteroide (AINE)");
+        var paracetamol = new Medicamento(8944533, "Ibuprofeno 500mg", 520, "acetaminofeno");
+        var cloracepam = new Medicamento(1234533, "Clonex", 6200, "benzodiacepinas", "Gotero");
+        var planB = new Medicamento(5554478, "Plan B One-Step", 1000, "levonorgestrel 0,75 mg", "Comprimido");
+        var redusterol = new Medicamento(3564978, "redusterol", 1562, "Simvastatina", "Comprimido");
+        var acovil = new Medicamento(99912978, "acovil", 2247, "ramipril", "Comprimido");
+        var levotiroxina = new Medicamento(4566876, "levotiroxina", 1543, "Eutirox");
+        var losartan = new Medicamento(989854, "losartán", 1675, "losartán potásico", "Comprimido");
+        var metformina = new Medicamento(56741233, "metformina", 7000, "biguanidas");
+        var alprazolam = new Medicamento(654411114, "alprazolam", 1209, "benzodiazepina", "Comprimido");
+        var aspirina = new Medicamento(56548794, "aspirina", 126, "ácido acetilsalicílico", "Comprimido");
+        var bisoprolol = new Medicamento(65654433, "bisoprolol", 2648, "bisoprolol ");
+
+        //CREACION DEL STOCK
+        var stockIbu = new Stock(ibu, 50);
+        var stockParacetamol = new Stock(paracetamol, 60);
+        var stockCloracepam = new Stock(cloracepam, 30);
+        var stockPlanB = new Stock(planB, 20);
+        var stockRedusterol = new Stock(redusterol, 10);
+        var stockAcovil = new Stock(acovil, 2);
+        var stockLevotiroxina = new Stock(levotiroxina, 20);
+        var stockLosartan = new Stock(losartan, 30);
+        var stockMetformina = new Stock(metformina, 6);
+        var stockAlprazolam = new Stock(alprazolam, 8);
+        var stockAspirina = new Stock(aspirina, 50);
+        var stockBisoprolol = new Stock(bisoprolol, 1);
+
+        //SE AGREGAN LOS STOCKS DISPONIBLES PARA  LA FARMACIA
+        farmacia.addStok(stockIbu);
+        farmacia.addStok(stockParacetamol);
+        farmacia.addStok(stockCloracepam);
+        farmacia.addStok(stockPlanB);
+        farmacia.addStok(stockRedusterol);
+        farmacia.addStok(stockAcovil);
+        farmacia.addStok(stockLevotiroxina);
+        farmacia.addStok(stockLosartan);
+        farmacia.addStok(stockMetformina);
+        farmacia.addStok(stockAlprazolam);
+        farmacia.addStok(stockAspirina);
+        farmacia.addStok(stockBisoprolol);
+
+        //CREACION DE LOS PRODUCTOS QUE VAN AL CARRITO
+        var medicamentos = new Medicamentos(2, ibu);
+        var medicamentos2 = new Medicamentos(5, planB);
+        var medicamentos3 = new Medicamentos(8, ibu);
+        var medicamentos4 = new Medicamentos(9, cloracepam);
+        var medicamentos5 = new Medicamentos(5, planB);
+        var medicamentos6 = new Medicamentos(2, redusterol);
+        var medicamentos7 = new Medicamentos(1, acovil);
+        var medicamentos8 = new Medicamentos(3, acovil);
+        var medicamentos9 = new Medicamentos(1, redusterol);
+
+        //CREACION DEL LOS CARRITOS
+        var carrito = new ArrayList { medicamentos, medicamentos2, medicamentos6, medicamentos7 };
+        var carrito2 = new ArrayList { medicamentos3, medicamentos5, medicamentos8, medicamentos9 };
+        var carrito3 = new ArrayList { medicamentos8, medicamentos6, medicamentos, medicamentos6 };
+        var carrito4 = new ArrayList { medicamentos3, medicamentos2, medicamentos6, medicamentos8 };
+        var carrito5 = new ArrayList { medicamentos4, medicamentos2, medicamentos3, medicamentos9 };
+
+        //CREACION DE LAS COMPRAS DE LA FARMACIA
+        var factura = new Factura("HA132456", new DateTime(2022, 9, 11, 7, 0, 0), vendedorUno);
+        var factura2 = new Factura("H131312", new DateTime(2022, 11, 11, 12, 0, 0), vendedorDos, "Galeno");
+        var factura3 = new Factura("HF32454", new DateTime(2022, 9, 11, 8, 0, 0), vendedorDos, "Simeco");
+        var factura4 = new Factura("F412313", new DateTime(2022, 11, 11, 16, 0, 0), vendedorUno, "Ospic");
+        var factura5 = new Factura("GH14123", new DateTime(2022, 12, 11, 13, 0, 0), vendedorUno, "Galeno");
+
+        // AÑADO LOS CARRITOS EN LA FACTURA
+        factura.AddMedicine(carrito);
+        factura2.AddMedicine(carrito2);
+        factura3.AddMedicine(carrito3);
+        factura4.AddMedicine(carrito4);
+        factura5.AddMedicine(carrito5);
+
+        // AÑADO LAS VENTAS A FARMACIA
+        farmacia.addCompra(factura);
+        farmacia.addCompra(factura2);
+        farmacia.addCompra(factura3);
+        farmacia.addCompra(factura4);
+        farmacia.addCompra(factura5);
+
+
         Run(farmacia);
     }
 
@@ -40,7 +134,8 @@ internal class Program
                 Run(farmacia);
                 break;
             case 7:
-                //listaMedicamentos();
+                listaMedicamentos(farmacia);
+                Run(farmacia);
                 break;
             case 8:
                 break;
@@ -49,7 +144,19 @@ internal class Program
         }
     }
 
-    private static void deleteEmpleado(Farmacia farmacia)
+    public static void listaMedicamentos(Farmacia farmacia)
+    {
+        Console.WriteLine(" ");
+        Console.WriteLine("               MEDICAMENTOS VENDIDOS           ");
+        Console.WriteLine("________________________________________________");
+        Console.WriteLine(" ");
+        farmacia.showMedicineSold();
+        Console.WriteLine(" ");
+        Console.WriteLine("Presione cualquier tecla par volver la menu...");
+        Console.ReadKey();
+    }
+
+    public static void deleteEmpleado(Farmacia farmacia)
     {
         Console.WriteLine(" ");
         Console.WriteLine("            ELIMINAR UN EMPLEADO           ");
