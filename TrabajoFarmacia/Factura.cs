@@ -221,7 +221,7 @@ namespace TrabajoFarmacia
 
         public override string ToString()
         {
-            return " obra social: " + prestacion + " importe: " + total + "código de vendedor: " + vendedor.Codigo + " fecha y hora de venta: " + fechaHora.ToString("dd/MM/yyyy") + " nro de ticket-factura " + tiketFactura;
+            return " nro DE TIKET "+ tiketFactura +", obra social:"  + prestacion + ", importe: [$" + total + "], código de vendedor: " + vendedor.Codigo + "y fecha y hora de venta: " + fechaHora.ToString("dd/MM/yyyy");
         }
     }
 }
