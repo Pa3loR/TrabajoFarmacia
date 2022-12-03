@@ -32,7 +32,26 @@ namespace TrabajoFarmacia
         // METODO QUE DEVUELVE UN EMPLEADO DE LA LISTA DE EMPLEADOS
         public Employed ObtenerEmpleado(int indice) 
         {
-            return empleados[indice] as Employed; ;
+            var empleado = empleados[indice] as Employed;
+            return empleado;
+        }
+        // DEVUELVE UN VENDEDOR
+        public Vendedor ObtenerVendedor(int indice) 
+        {
+            if (empleados[indice] is Vendedor)
+                return empleados[indice] as Vendedor;
+            return null;
+        }
+        // METODO QUE DEVUELVE UN Medicamento DE LA LISTA DE Stock
+        public Medicamento obtenerMedicamento(int indice) 
+        {
+            if (stockMedicamentos[indice] is Stock) 
+            {
+                Stock item = stockMedicamentos[indice] as Stock;
+                if(item.Medicine is Medicamento) 
+                    return item.Medicine;
+            }
+            return null;
         }
 
         //METODO PARA BUSCAR UN STOCK CON EL CODIGO DEL MEDICAMENTO
@@ -71,7 +90,7 @@ namespace TrabajoFarmacia
         public int ToFindEmpleado(int documento)
         {
             int i = 0;
-            foreach (Employed item in ventas)
+            foreach (Employed item in empleados)
             {
                 if (item.DNI == documento)
                 {
@@ -85,14 +104,18 @@ namespace TrabajoFarmacia
         //METODO PARA LISTAR TODAS LAS VENTAS
         public void showVentas()
         {
+            int i = 1;
+            Console.WriteLine("----- Lista de Ventas -----");
+            Console.WriteLine(" ");
             foreach (Factura item in ventas)
-                Console.WriteLine(item);
+                Console.WriteLine("     "+i++ +") "+item);
         }
 
         //METODO QUE LISTA LOS MEDICAMENTOS  VENDIDOS SIN REPETIR
         public void showMedicineSold() 
         {
             var list = new HashSet<Medicamento>();
+            int i = 1;
             foreach(Factura item in ventas) // AGREGA EN LA LISTA LOS MEDICAMENTOS
             {
                 foreach (Medicamento medicine in item.MedicamentoSold()) 
@@ -101,23 +124,45 @@ namespace TrabajoFarmacia
                 }
             }
             foreach (Medicamento item in list)
-                Console.WriteLine(item);
+            {
+                Console.WriteLine("     "+i++ +") "+item);
+            }
         }
 
         //METODO PARA LISTAR TODAS LOS EMPLEADOS
         public void showEmpleados()
         {
             int i = 1;
+            Console.WriteLine("----- Lista de Empleados -----");
+            Console.WriteLine(" ");
             foreach (Employed item in empleados)
-                Console.WriteLine(i++ + " " + item);
+            {
+                Console.WriteLine(i++ + ") " + item);
+            }
         }
-
+        //lISTA LOS EMPLEADOS QUE SON VENDEDORES:
+        public void showVendedores()
+        {
+            int i = 1;
+            Console.WriteLine("----- Lista de Vendedores -----");
+            Console.WriteLine(" ");
+            foreach (Employed item in empleados)
+            {
+                if (item is Vendedor)
+                {
+                    Console.WriteLine("     "+i++ + " Documento: " + item.DNI + ", Nombre: " + item.Nombre + ", Apellido:" + item.Apellido);
+                    Console.WriteLine(" ");
+                }
+            }
+        }
         //METODO PARA LISTAR TODOS LOS PRUCTOS EN STOCK
         public void showStock()
         {
             int i = 1;
+            Console.WriteLine("----- Lista de Medicamentos en stock -----");
+            Console.WriteLine(" ");
             foreach (Stock item in stockMedicamentos)
-                Console.WriteLine(i++ + " " + item);
+                Console.WriteLine("     "+i++ + ")  codigo:" + item.Medicine.Codigo +", nombre: "+item.Medicine.NombreComercial+ ", precio: [$ "+ item.Medicine.Precio+"]");
         }
 
         //      METODO PARA LISTAR TODOS LOS PRUCTOS EN STOCK QUE TENGAN MAS DE LA CANTIDAD SOLICITADA
@@ -168,7 +213,7 @@ namespace TrabajoFarmacia
                 return true;
             else
             {
-                Console.WriteLine("La cantidad Solicitada es insuficiente, por favor ingreser un numero menor a ", item.CantDisponible);
+                Console.WriteLine("La cantidad Solicitada es insuficiente, por favor ingreser un numero menor a "+ item.CantDisponible);
                 return false;
             }
         }
@@ -291,7 +336,13 @@ namespace TrabajoFarmacia
             else
                 Console.WriteLine("El Producto no existe en el stok");
         }
-
+        // Saca una cantidad del stock
+        public void SacarDelStock(int indice, int cantidad) 
+        {
+            var item = stockMedicamentos[indice] as Stock ;
+            item.Delete(cantidad);
+            stockMedicamentos[indice] = item;
+        }
        
 
         public void Default()
