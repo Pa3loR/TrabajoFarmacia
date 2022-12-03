@@ -23,7 +23,7 @@ internal class Program
                 Run(farmacia);
                 break;
             case 3:
-                //Pocentaje(farmacia);
+                Pocentaje(farmacia);
                 break;
             case 4:
                 //VentasxVendedor(farmacia);
@@ -240,6 +240,23 @@ internal class Program
          
         return optionInt;
     }
+
+    public static void Pocentaje(Farmacia farmacia) 
+    {
+        Console.WriteLine(" ");
+        Console.WriteLine("  Porcentaje de ventas en la primera quincena");
+        Console.WriteLine("             del ultimo año(2022)");
+        Console.WriteLine("_______________________________________________");
+        Console.WriteLine(" ");
+        farmacia.showVentas();
+        int mes=0;
+        do 
+        {
+            mes = GetIntegerVelue("Por favor el mes [1-12] que desea ver su porcentaje de ventas de obra social: ");
+        } while (!(mes > 0 && mes < 13));
+        farmacia.PorcentajeObraSocial(mes);
+    }
+
     //  FUNCION PARA VALIDAR UN TIPO DE DATO INGRESADO POR EL USUARIO, QUE PEDIRA 
     // EL REINGRESO DE DATOS HASTA QUE SEA VALIDO
     public static int GetIntegerVelue(string msj)
