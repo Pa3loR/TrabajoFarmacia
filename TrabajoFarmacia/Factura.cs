@@ -60,6 +60,7 @@ namespace TrabajoFarmacia
             get { return vendedor; }
             set { vendedor = value; }
         }
+        public string Presentacion { get { return prestacion; } }
 
         // METODO PARA AGREGAR MEDICAMENTOS AL CARRITO
 
