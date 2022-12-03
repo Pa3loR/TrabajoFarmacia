@@ -19,7 +19,8 @@ internal class Program
                 Run(farmacia);
                 break;
             case 2:
-                //DeleteCompra(farmacia);
+                DeleteCompra(farmacia);
+                Run(farmacia);
                 break;
             case 3:
                 //Pocentaje(farmacia);
@@ -169,6 +170,47 @@ internal class Program
             Console.WriteLine("Desea Agregar otra compra? [Presione N para ir al menu]");
             option = Console.ReadLine();
         } while (option.ToLower() != "n");
+    }
+
+    public static void DeleteCompra(Farmacia farmacia)
+    {
+        Console.WriteLine(" ");
+        Console.WriteLine("                 ELIMINAR COMPRA          ");
+        Console.WriteLine("________________________________________________");
+        Console.WriteLine(" ");
+       
+        farmacia.showVentasSimplificado();
+        string option = "y";
+        string tiketFactura;
+        do
+        {
+            bool isInvalid = true;
+            while (isInvalid)
+            {
+                try
+                {
+                    Console.WriteLine("Ingrese el tiket de la compra que desea eliminar: ");
+                    tiketFactura = Console.ReadLine().ToUpper();
+                    farmacia.DeleteCompra(tiketFactura);
+                    isInvalid = false;
+                }
+                catch (InvalidTiketExeption e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.WriteLine(" ");
+                    Console.WriteLine("     El tiket ingresado NO EXISTE!");
+                    isInvalid = true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("A Ocurrido un error");
+                    isInvalid = true;
+                }
+            }
+            Console.WriteLine("Desea eliminar otra compra? [Y/N] ");
+            option = Console.ReadLine();
+            Console.WriteLine(" ");
+        } while (!(option.ToLower() == "n"));
     }
     public static int Menu() 
     {
