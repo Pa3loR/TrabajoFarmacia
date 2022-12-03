@@ -24,9 +24,11 @@ internal class Program
                 break;
             case 3:
                 Pocentaje(farmacia);
+                Run(farmacia);
                 break;
             case 4:
-                //VentasxVendedor(farmacia);
+                VentasxVendedor(farmacia);
+                Run(farmacia);
                 break;
             case 5:
                 //AddEmpleado(farmacia);
@@ -212,6 +214,28 @@ internal class Program
             Console.WriteLine(" ");
         } while (!(option.ToLower() == "n"));
     }
+    public static void VentasxVendedor(Farmacia farmacia) 
+    {
+        Console.WriteLine(" ");
+        Console.WriteLine("           VENTAS REALIZADO POR VENDEDOR          ");
+        Console.WriteLine("________________________________________________");
+        Console.WriteLine(" ");
+        int existVendedor = -1;
+        int docVendedor;
+        farmacia.showVendedores();
+        do 
+        {
+            docVendedor = GetIntegerVelue("Ingrese documento del vendedor: ");
+            existVendedor = farmacia.ToFindEmpleado(docVendedor);
+            if (existVendedor <= -1)
+                Console.WriteLine("     El vendedor ingresado NO Existe");
+        }while (existVendedor <= -1);
+        farmacia.VentasXVendedor(docVendedor);
+        Console.WriteLine(" ");
+        Console.WriteLine("Presione cualquier tecla par volver la menu...");
+        Console.ReadKey();
+    }
+
     public static int Menu() 
     {
         string option;
