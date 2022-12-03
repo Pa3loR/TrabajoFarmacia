@@ -110,7 +110,14 @@ namespace TrabajoFarmacia
             foreach (Factura item in ventas)
                 Console.WriteLine("     "+i++ +") "+item);
         }
-
+        public void showVentasSimplificado() 
+        {
+            int i = 1;
+            Console.WriteLine("----- Lista de Ventas -----");
+            Console.WriteLine(" ");
+            foreach (Factura item in ventas)
+                Console.WriteLine("     " + i++ + ") tiket[" + item.TiketFactura+"] importe total: $ "+item.ImporteTotal+" Vendido por: "+item.Vendedor.Codigo+", fecha: "+item.Fecha.Day+"/"+ item.Fecha.Month+"/"+item.Fecha.Year);
+        }
         //METODO QUE LISTA LOS MEDICAMENTOS  VENDIDOS SIN REPETIR
         public void showMedicineSold() 
         {
@@ -291,7 +298,7 @@ namespace TrabajoFarmacia
             int i = ToFindVenta(tiket);
             if (i > -1)
             {
-                ventas[i] = null;
+                ventas.RemoveAt(i);
                 Console.WriteLine("Compra ELiminada");
             }
             else
