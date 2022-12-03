@@ -12,6 +12,7 @@ internal class Program
 
     public static void Run(Farmacia farmacia) 
     {
+        Console.Clear();
         switch (Menu())
         {
             case 1:
@@ -31,7 +32,8 @@ internal class Program
                 Run(farmacia);
                 break;
             case 5:
-                //AddEmpleado(farmacia);
+                AddEmpleado(farmacia);
+                Run(farmacia);
                 break;
             case 6:
                 //deleteEmpleado(farmacia);
@@ -44,6 +46,76 @@ internal class Program
             default:
                 break;
         }
+    }
+
+    public static void AddEmpleado(Farmacia farmacia)
+    {
+        Console.WriteLine(" ");
+        Console.WriteLine("            AÑADIR UN NUEVO EMPLEADO           ");
+        Console.WriteLine("________________________________________________");
+        Console.WriteLine(" ");
+        Console.WriteLine(" ");
+        Console.WriteLine("1- Añadir Vendedor");
+        Console.WriteLine("2- Añadir Farmaceutico");
+        Console.WriteLine("3- Añadir Mantenimiento");
+        int option;
+        do
+        {
+            option = GetIntegerVelue("Ingrese alguna de las opciones:");
+        } while (!(option > 0 && option < 4));
+
+        int documento;
+        int isInvalid = -1;
+        do 
+        {
+            documento = GetIntegerVelue("Ingrese Documento del nuevo empleado: ");
+            isInvalid = farmacia.ToFindEmpleado(documento);
+            if (isInvalid > -1)
+                Console.WriteLine("Ese documento ya esta agregado");
+
+        } while (isInvalid > -1);
+        Console.WriteLine("Ingrese nombre del nuevo empleado");
+        string nombre = Console.ReadLine();
+        Console.WriteLine("Ingrese apellido del nuevo empleado");
+        string apellido = Console.ReadLine();
+        int sueldo = GetIntegerVelue("Ingrese el sueldo correspondiente al nuevo empleado: ");
+        Employed empleadoNuevo;
+        switch (option) 
+        {
+            case 1:
+                int codigo = GetIntegerVelue("Ingrese el codigo del nuevo Vendedor: ");
+                empleadoNuevo = new Vendedor(codigo, documento, apellido, nombre, sueldo);
+                Console.WriteLine("     Vendedor Creado!");
+                break;
+            case 2:
+                empleadoNuevo = new Farmaceutico(documento, apellido, nombre, sueldo);
+                Console.WriteLine("     Farmaceutico Creado!");
+                break;
+            case 3:
+                Console.WriteLine("Ingrese el puesto del nuevo empleado de Mantenimiento");
+                string puesto = Console.ReadLine();
+                empleadoNuevo = new Mantenimiento(puesto, documento, apellido, nombre, sueldo);
+                Console.WriteLine("     empleado de Mantenimiento Creado!");
+                break;
+            default:
+                // Por defecto crea un farmaceutico
+                empleadoNuevo = new Farmaceutico(documento, apellido, nombre, sueldo);
+                Console.WriteLine("     Farmaceutico Creado!");
+                break;
+        }
+        Console.WriteLine(empleadoNuevo);
+        Console.WriteLine("DESEA AGREGAR AL NUEVO EMPLEADO? [N para no agregarlo]");
+        string confirmacion = Console.ReadLine();
+        if (!(confirmacion.ToLower() == "n"))
+        {
+            farmacia.addEmpleado(empleadoNuevo);
+            Console.WriteLine("         Empleado Contratado!");
+        }
+        else
+            Console.WriteLine("         El Empleado NO FUE Contratado!");
+        Console.WriteLine(" ");
+        Console.WriteLine("Presione cualquier tecla par volver la menu...");
+        Console.ReadKey();
     }
 
     public static void AgregarCompraMedicine(Farmacia farmacia)
@@ -213,6 +285,9 @@ internal class Program
             option = Console.ReadLine();
             Console.WriteLine(" ");
         } while (!(option.ToLower() == "n"));
+        Console.WriteLine(" ");
+        Console.WriteLine("Presione cualquier tecla par volver la menu...");
+        Console.ReadKey();
     }
     public static void VentasxVendedor(Farmacia farmacia) 
     {
@@ -279,6 +354,9 @@ internal class Program
             mes = GetIntegerVelue("Por favor el mes [1-12] que desea ver su porcentaje de ventas de obra social: ");
         } while (!(mes > 0 && mes < 13));
         farmacia.PorcentajeObraSocial(mes);
+        Console.WriteLine(" ");
+        Console.WriteLine("Presione cualquier tecla par volver la menu...");
+        Console.ReadKey();
     }
 
     //  FUNCION PARA VALIDAR UN TIPO DE DATO INGRESADO POR EL USUARIO, QUE PEDIRA 
