@@ -350,7 +350,28 @@ namespace TrabajoFarmacia
             item.Delete(cantidad);
             stockMedicamentos[indice] = item;
         }
-       
+        
+        //METODO PARA SACAR EL PORCENTAJE DE OBRAS SOCIALES EN UN MES CON RESPECTO A LAS QUE NO TIENEN DE ESE MISMO MES
+        public void PorcentajeObraSocial(int mes)
+        {
+            int cantObraSocial = 0;
+            int cantVentas = 0;
+            foreach (Factura venta in ventas) 
+            {
+                if (venta.Fecha.Month == mes && venta.Fecha.Year == 2022)
+                {
+                    cantVentas++;
+                    if (venta.Presentacion.ToLower() != "particular" && venta.Fecha.Day > 0 && venta.Fecha.Day < 15)
+                        cantObraSocial++;
+                }
+            }
+            double result;
+            if (!(cantVentas == 0))
+                result = ((double)cantObraSocial / (double)cantVentas) * 100;
+            else
+                result = 0;
+            Console.WriteLine("El porcentaje de la primera quincena del mes "+mes+" es: "+result+" %");
+        }
 
         public void Default()
         {
@@ -422,7 +443,7 @@ namespace TrabajoFarmacia
             var carrito4 = new ArrayList { medicamentos3, medicamentos2, medicamentos6, medicamentos8 };
             var carrito5 = new ArrayList { medicamentos4, medicamentos2, medicamentos3, medicamentos9 };
 
-            var factura = new Factura("HA132456", new DateTime(2022, 10, 11, 7, 0, 0), vendedorUno);
+            var factura = new Factura("HA132456", new DateTime(2022, 9, 11, 7, 0, 0), vendedorUno);
             var factura2 = new Factura("H131312", new DateTime(2022, 11, 11, 12, 0, 0), vendedorDos, "Galeno");
             var factura3 = new Factura("HF32454", new DateTime(2022, 9, 11, 8, 0, 0), vendedorDos, "Simeco");
             var factura4 = new Factura("F412313", new DateTime(2022, 11, 11, 16, 0, 0), vendedorUno, "Ospic");
